@@ -2,17 +2,18 @@ import tarfile
 import os
 
 
-def extract_tarfile(tar_file_path, extract_folder):
+def extract_tarfile(tar_file_path,work_path ,extract_folder):
+    out_path = os.path.join(work_path,extract_folder)
     # Check if the extract folder exists, if not, create it
-    if not os.path.exists(extract_folder):
-        os.makedirs(extract_folder)
+    if not os.path.exists(out_path):
+        os.makedirs(out_path)
 
     # Open the tar file
     with tarfile.open(tar_file_path, 'r') as tar:
         # Extract all contents to the specified folder
-        tar.extractall(extract_folder)
+        tar.extractall(out_path)
 
-    print(f"Successfully extracted {tar_file_path} to {extract_folder}")
+    print(f"Successfully extracted {tar_file_path} to {out_path}")
     
     
 def pathListIntoIds(dirList):
@@ -42,7 +43,7 @@ def check_update_ids(DATASET_PATH,all_ids):
 def main(work_path,tar_file_path,extract_folder):
 
     #extract the dataset 
-    extract_tarfile(tar_file_path, extract_folder)
+    extract_tarfile(tar_file_path, work_path,extract_folder)
     #path to extracted DATASET
     DATASET_PATH = os.path.join(work_path,extract_folder)
     #Get all ids
