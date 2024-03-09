@@ -7,7 +7,7 @@ class _3D_UNet_2dCONV_tensorflow():
     self.dropout_p = dropout_p
     self.concatenate = concatenate
     self.Conv2D = Conv2D
-    self.MaxPooling2D = self.MaxPooling2D
+    self.MaxPooling2D = MaxPooling2D
     self.Dropout = Dropout
     self.UpSampling2D = UpSampling2D
     self.Model = Model
