@@ -67,7 +67,7 @@ def crop_volumes(x,args):
 #original code https://www.kaggle.com/code/rastislav/3d-mri-brain-tumor-segmentation-u-net
 class DataGenerator(keras.utils.Sequence):
     'Generates data for Keras'
-    def __init__(self,min_indices, max_indices,DATASET_PATH,VOLUME_SLICES,VOLUME_START_AT,dim, list_IDs,batch_size=1,n_classes=4, n_channels = 4,preprocess_input=None, shuffle=True,args=None):
+    def __init__(self,DATASET_PATH,VOLUME_SLICES,VOLUME_START_AT,dim, list_IDs,batch_size=1,n_classes=4, n_channels = 4,preprocess_input=None, shuffle=True,args=None):
         'Initialization'
         self.preprocess_input = preprocess_input
         self.batch_size = batch_size
