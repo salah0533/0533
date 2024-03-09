@@ -57,17 +57,17 @@ def calculate_bounding_box(all_ids,TRAIN_DATASET_PATH):
     
     return min_indices, max_indices
 
-def crop_volumes(x):
+def crop_volumes(x,args):
     
-    x = x[min_indices[0]:max_indices[0] + 1,
-                                   min_indices[1]:max_indices[1] + 1,
-                                   min_indices[2]:max_indices[2] + 1]
+    x = x[args.min_indices[0]:args.max_indices[0] + 1,
+                                   args.min_indices[1]:args.max_indices[1] + 1,
+                                   args.min_indices[2]:args.max_indices[2] + 1]
     return x 
 
 #original code https://www.kaggle.com/code/rastislav/3d-mri-brain-tumor-segmentation-u-net
 class DataGenerator(keras.utils.Sequence):
     'Generates data for Keras'
-    def __init__(self,min_indices, max_indices,DATASET_PATH,VOLUME_SLICES,VOLUME_START_AT,dim, list_IDs,batch_size=1,n_classes=4, n_channels = 4,preprocess_input=None, shuffle=True):
+    def __init__(self,min_indices, max_indices,DATASET_PATH,VOLUME_SLICES,VOLUME_START_AT,dim, list_IDs,batch_size=1,n_classes=4, n_channels = 4,preprocess_input=None, shuffle=True,args=None):
         'Initialization'
         self.preprocess_input = preprocess_input
         self.batch_size = batch_size
@@ -80,7 +80,8 @@ class DataGenerator(keras.utils.Sequence):
         self.VOLUME_START_AT = VOLUME_START_AT
         self.dim = dim
         self.DATASET_PATH = DATASET_PATH
-        
+        self.args = args
+
     def __len__(self):
         'Denotes the number of batches per epoch'
         return int(np.floor(len(self.list_IDs) / self.batch_size))
@@ -129,11 +130,11 @@ class DataGenerator(keras.utils.Sequence):
             seg = nib.load('BraTS2021_seg.nii').get_fdata()
             #preprocesing
             if self.preprocess_input !=None:
-                t2    = self.preprocess_input(t2)
-                ce    = self.preprocess_input(ce)
-                t1    = self.preprocess_input(t1)
-                flair = self.preprocess_input(flair)
-                seg   = self.preprocess_input(seg)
+                t2    = self.preprocess_input(t2,self.args)
+                ce    = self.preprocess_input(ce,self.args)
+                t1    = self.preprocess_input(t1,self.args)
+                flair = self.preprocess_input(flair,self.args)
+                seg   = self.preprocess_input(seg,self.args)
             
             #loop over slices to flip the slices from axis 2 to axis 0
             for j in range(self.VOLUME_SLICES):
