@@ -1,3 +1,7 @@
+import tarfile
+import os
+
+
 def extract_tarfile(tar_file_path, extract_folder):
     # Check if the extract folder exists, if not, create it
     if not os.path.exists(extract_folder):
